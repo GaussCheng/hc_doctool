@@ -1,0 +1,22 @@
+---
+CJKmainfont: "Heiti SC"
+mainfont: "Helvetica"
+sansfont: "Helvetica"
+monofont: "Helvetica"
+geometry:
+    - a4paper
+
+geometry:margin:
+    - 2cm
+
+toc: true
+toc-title: "目录"
+toc-own-page: true
+titlepage : true
+
+colorlinks: true
+linkcolor: red
+filecolor: Cyan
+urlcolor: Navy
+toccolor: blue
+---

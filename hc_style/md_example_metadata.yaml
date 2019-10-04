@@ -1,0 +1,13 @@
+---
+#documentclass: book
+title: "华成手控系统远程监控通信协议"
+subtitle: "test sub"
+author: 
+    -  程国醒
+date: "2019-10-02"
+keywords: [通信,远程]
+#lang: zh-CN
+listings-disable-line-numbers: true
+listings-no-page-break: true
+product_type: r6
+---

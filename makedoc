@@ -1,0 +1,12 @@
+#! /bin/sh
+
+#pandoc --standalone --self-contained --css htmlstyle.css VisionSystemProtocol.md --output VisionSystemProtocol.html
+
+#pandoc --standalone --self-contained --css htmlstyle.css RemoteMonitor.md --output RemoteMonitor.html
+
+pandoc  RemoteMonitor.md \
+        hc_style/hc_manual_pdf.yaml \
+        --output RemoteMonitor.pdf  \
+        --pdf-engine=xelatex --from markdown \
+        --template hc_style/hc_manual_pdf.tex \
+        --highlight-style tango 
