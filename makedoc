@@ -1,12 +1,9 @@
 #! /bin/sh
 
-#pandoc --standalone --self-contained --css htmlstyle.css VisionSystemProtocol.md --output VisionSystemProtocol.html
+base_html_opt="--standalone --self-contained --template hc_style/toc-sidebarL.html --toc -B hc_style/hc_nav"
+pandoc $base_html_opt manual/VisionSystemProtocol.md --output manual_output/VisionSystemProtocol.html
+pandoc $base_html_opt manual/RemoteMonitor.md --output manual_output/RemoteMonitor.html
+pandoc $base_html_opt manual/SprayingTechnologyGuide.md --output manual_output/SprayingTechnologyGuide.html
 
-#pandoc --standalone --self-contained --css htmlstyle.css RemoteMonitor.md --output RemoteMonitor.html
-
-pandoc  RemoteMonitor.md \
-        hc_style/hc_manual_pdf.yaml \
-        --output RemoteMonitor.pdf  \
-        --pdf-engine=xelatex --from markdown \
-        --template hc_style/hc_manual_pdf.tex \
-        --highlight-style tango 
+base_pdf_opt="hc_style/hc_manual_pdf.yaml --pdf-engine=xelatex --from markdown --template hc_style/hc_manual_pdf.tex --highlight-style tango "
+#pandoc $base_pdf_opt manual/RemoteMonitor.md --output manual_output/RemoteMonitor.pdf 

@@ -1,0 +1,111 @@
+<div class="hc_nav_header"> <div class="hc_nav_logo"><a href="/" ><img src="http://www.hc-system.com/images/logo.png"></a></div>
+    <div class="tellbtn"> <b><img src="http://www.hc-system.com/Public/Home/images/ic1.png"></b>    <div class="hctell"> 13924666952</div></div>
+    <div class="hc_nav_menu clearfix"><div id="nav1">
+      <li>
+        <p><a href="http://www.hc-system.com/about.html">关于我们</a></p>
+        <div class="submenu">
+          <div class="layout clearfix">
+            <div class="mid">
+              <dl>
+                <dd><a href="http://www.hc-system.com/about.html">企业概况</a></dd>
+                <dd><a href="http://www.hc-system.com/wenhua.html">企业文化</a></dd>
+                <dd><a href="http://www.hc-system.com/rongyuzizhi/">荣誉资质</a></dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li >
+        <p><a href="http://www.hc-system.com/news/">新闻中心</a></p>
+        <div class="submenu">
+          <div class="layout clearfix">
+            <div class="mid">
+              <dl>
+
+				<dd><a href="http://www.hc-system.com/hangyezixun/">行业资讯</a></dd>
+
+				<dd><a href="http://www.hc-system.com/qiyenews/">企业新闻</a></dd>
+
+              </dl>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li >
+        <p><a href="http://www.hc-system.com/products/">产品中心</a></p>
+        <div class="submenu">
+          <div class="layout clearfix">
+            <div class="mid">
+              <dl>
+
+				<dd><a href="http://www.hc-system.com/products/yundongleiproduct/">运动类产品</a></dd>
+
+				<dd><a href="http://www.hc-system.com/products/qukongyitiproduct/">驱控一体产品</a></dd>
+
+				<dd><a href="http://www.hc-system.com/products/sifuproduct/">伺服产品</a></dd>
+
+				<dd><a href="http://www.hc-system.com/products/kongzhiproduct/">控制产品</a></dd>
+
+				<dd><a href="http://www.hc-system.com/products/gongyeyun/">工业云</a></dd>
+
+				<dd><a href="http://www.hc-system.com/products/shijueproduct/">视觉产品</a></dd>
+
+				<dd><a href="http://www.hc-system.com/products/chuanganqi/">传感器</a></dd>
+
+              </dl>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li >
+        <p><a href="http://www.hc-system.com/53.html">服务与支持</a></p>
+        <div class="submenu">
+          <div class="layout clearfix">
+            <div class="mid">
+              <dl>
+                <dd><a href="http://www.hc-system.com/53.html">售后服务</a></dd>
+                <dd><a href="http://www.hc-system.com/down/">资料下载</a></dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li >
+        <p><a href="http://www.hc-system.com/52.html">解决方案</a></p>
+      </li>
+      <li >
+        <p><a href="http://www.hc-system.com/online/">技术在线</a></p>
+      </li>
+      <li >
+        <p><a href="http://www.hc-system.com/50.html">加入我们</a></p>
+        <div class="submenu">
+          <div class="layout clearfix">
+            <div class="mid">
+              <dl>
+                <dd><a href="http://www.hc-system.com/50.html">招聘信息</a></dd>
+                <dd><a href="http://www.hc-system.com/51.html">校企合作</a></dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li >
+        <p><a href="http://www.hc-system.com/contact.html">联系方式</a></p>
+      </li>
+    </div></div>
+</div>
+<script>
+var myNav = document.getElementById("nav1").getElementsByTagName("a");   
+for(var i=0;i<myNav.length;i++)   
+{   
+   var links = myNav[i].getAttribute("href");   
+    //alert(links)   
+   //alert(myNav[i]);   
+   var myURL = document.location.href;    
+   if(myURL.indexOf(links) != -1)   
+   {   
+      myNav[i].className="on";   
+    }   
+} 
+</script>
