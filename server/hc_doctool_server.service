@@ -1,0 +1,11 @@
+[Unit]
+Description=SZHC HC Document Tool
+After=network-online.target
+
+[Service]
+Restart=on-failure
+WorkingDirectory=/home/hccloud/hc_doctool/server
+ExecStart=/usr/bin/node /home/hccloud/hc_doctool/server/hc_doctool_server.js
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,35 @@
+\usepackage{sectsty}
+\sectionfont{\clearpage}
+
+%% pandoc-fignos: required package
+\usepackage{cleveref}
+%%%% pandoc-fignos: required package
+\usepackage{caption}
+%% pandoc-fignos: change cref names
+\crefname{figure}{图}{figs.}
+%% pandoc-fignos: environment to disable figure caption prefixes
+\makeatletter
+\newcounter{figno}
+\newenvironment{fignos:no-prefix-figure-caption}{
+  \caption@ifcompatibility{}{
+    \let\oldthefigure\thefigure
+    \let\oldtheHfigure\theHfigure
+    \renewcommand{\thefigure}{figno:\thefigno}
+    \renewcommand{\theHfigure}{figno:\thefigno}
+    \stepcounter{figno}
+    \captionsetup{labelformat=empty}
+  }
+}{
+  \caption@ifcompatibility{}{
+    \captionsetup{labelformat=default}
+    \let\thefigure\oldthefigure
+    \let\theHfigure\oldtheHfigure
+    \addtocounter{figure}{-1}
+  }
+}
+\makeatother
+% pandoc-fignos: change the caption name
+\renewcommand{\figurename}{图}
+\captionsetup[figure]{name=图}
+%% pandoc-fignos: number figures by section
+\numberwithin{figure}{section}

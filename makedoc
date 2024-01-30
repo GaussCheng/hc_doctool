@@ -1,9 +1,133 @@
 #! /bin/sh
 
-base_html_opt="--standalone --self-contained --template hc_style/toc-sidebarL.html --toc -B hc_style/hc_nav"
-pandoc $base_html_opt manual/VisionSystemProtocol.md --output manual_output/VisionSystemProtocol.html
-pandoc $base_html_opt manual/RemoteMonitor.md --output manual_output/RemoteMonitor.html
-pandoc $base_html_opt manual/SprayingTechnologyGuide.md --output manual_output/SprayingTechnologyGuide.html
 
-base_pdf_opt="hc_style/hc_manual_pdf.yaml --pdf-engine=xelatex --from markdown --template hc_style/hc_manual_pdf.tex --highlight-style tango "
+input=$1
+output=$2
+res=$3
+outtype=$4
+
+if [ -d $input ]; then
+	inputs=$(find $input -iname "*.md")
+	res=$(find $input -type d)
+	str=''
+	for i in ${res};do
+		str=$str:$i;
+	done
+	res=$str
+	# outputs=$inputs
+	# for f in $inputs
+	# do
+    #     name=${f##*/}
+	# 	outputs[0]=${name%.*}.${outtype}
+    #     #outputs[$filecount]=${name}
+    # done
+else
+	inputs=$input
+	# outputs=${input%.*}.${outtype}
+fi
+echo "inputs" $inputs
+base_opt=" --filter pandoc-plantuml --filter pandoc-fignos  --number-sections --dpi=300 --resource-path ./$res "
+base_html_opt=${base_opt}" -f markdown --standalone --self-contained    --template hc_style/toc-sidebarL.html --toc  --toc-depth=4 -B hc_style/hc_nav "
+base_pdf_opt=${base_opt}" hc_style/hc_manual_pdf.yaml --pdf-engine=xelatex --from markdown --template hc_style/hc_manual_pdf.tex  -H hc_style/hc_manual_pdf_header_style.tex --highlight-style tango "
+base_docx_opt=${base_opt}" hc_style/hc_manual_pdf.yaml  --from markdown --filter pandoc-docx-pagebreakpy --highlight-style tango "
+base_doc_opt=${base_opt}" hc_style/hc_manual_pdf.yaml --pdf-engine=xelatex --from markdown --template hc_style/hc_manual_pdf.tex -H hc_style/hc_manual_pdf_header_style.tex --highlight-style tango "
+
+
+opt_use=base_${outtype}_opt
+opt_use=`eval echo '$'$opt_use`
+
+#rm -rf $output
+mkdir $output
+for md in $inputs
+do
+	out_name=${md##*/}
+	out_name=$output/${out_name%.*}.${outtype}
+	#echo $out_name
+	if [ ${outtype} = "docx" ]; then
+		rm -rf hc_style/hc_manual_docx
+		unzip -q hc_style/hc_manual_docx.docx -d hc_style/hc_manual_docx
+		#cat $md | sed '/^\-\-\-/,/^\-\-\-/!d; //d' | grep "version\|doc_id |  tr -d '\r'"
+		doc_info=`cat $md | sed '/^\-\-\-/,/^\-\-\-/!d; //d' | grep "version\|doc_id\|title\|subtitle"`
+		ver=''
+		doc_id=''
+		tl=''
+		stl=''
+		last=0
+		for i in ${doc_info};do
+			#echo $i
+			case  $i in 
+			*"version"*)
+				last=1
+				continue
+				;;
+			*"doc_id"*)
+				last=2
+				continue
+				;;
+			*"subtitle"*)
+				last=4
+				continue
+				;;
+			*"title"*)
+				last=3
+				continue
+				;;
+			*)
+			esac
+
+			if [ $last -eq 1 ]; then
+				ver=`echo $i | tr -d "\r"`
+				last=0
+			elif [ $last -eq 2 ]; then
+				doc_id=`echo $i | tr -d "\r"`
+				last=0
+			elif [ $last -eq 3 ]; then
+				tl=`echo $i | tr -d "\r" | sed 's/\"//g'`
+				last=0
+			elif [ $last -eq 4 ]; then
+				stl=`echo $i | tr -d "\r | sed 's/\"//g'"`
+				stl=-$stl
+				last=0
+			fi
+		done
+		#echo $ver 
+		#echo $doc_id
+		#echo $tl
+		#echo $stl
+		sed -i "s/\$page_title_header/$tl$stl/g;s/\$doc_id/$doc_id 版本:$ver/g" hc_style/hc_manual_docx/word/header1.xml
+		cd hc_style/hc_manual_docx
+		zip -0 -r ../hc_manual_docx_use.docx *
+		cd ../../
+		
+	fi
+	pandoc $opt_use --reference-doc hc_style/hc_manual_docx_use.docx $md --output $out_name
+done
+rm -rf plantuml-images
+#pandoc $base_html_opt manual/VisionSystemProtocol.md --output manual_output/VisionSystemProtocol.html
+#pandoc $base_html_opt manual/RemoteMonitor.md --output manual_output/RemoteMonitor.html
+#pandoc $base_html_opt manual/SprayingTechnologyGuide.md --output manual_output/SprayingTechnologyGuide.html
+#pandoc $base_html_opt manual/OfflineProgramManual.md --output manual_output/OfflineProgramManual.html
+#pandoc $base_html_opt manual/R6_ModbusTCP_Slave.md --output manual_output/R6_ModbusTCP_Slave.html
+
+
+
+
 #pandoc $base_pdf_opt manual/RemoteMonitor.md --output manual_output/RemoteMonitor.pdf 
+#pandoc $base_pdf_opt manual/VisionSystemProtocol.md --output manual_output/VisionSystemProtocol.pdf 
+#pandoc $base_pdf_opt manual/SprayingTechnologyGuide.md --output manual_output/SprayingTechnologyGuide.pdf 
+#pandoc $base_pdf_opt manual/OfflineProgramManual.md --output manual_output/OfflineProgramManual.pdf 
+#pandoc $base_pdf_opt manual/R6_ModbusTCP_Slave.md --output manual_output/R6_ModbusTCP_Slave.pdf 
+
+
+#base_html_opt="-f markdown --standalone --self-contained  --resource-path ./:design  --template hc_style/toc-sidebarL.html --toc  --toc-depth=4 -B hc_style/hc_nav"
+#base_pdf_opt="hc_style/hc_manual_pdf.yaml --resource-path ./:design --pdf-engine=xelatex --from markdown --template hc_style/hc_manual_pdf.tex --highlight-style tango "
+
+#pandoc $base_html_opt design/EC-APRobotDesignManual.md --output design_output/EC-APRobotDesignManual.html
+#pandoc $base_pdf_opt design/EC-APRobotDesignManual.md --output design_output/EC-APRobotDesignManual.pdf 
+#pandoc $base_pdf_opt design/EC-APRobotDesignManual.md --output design_output/EC-APRobotDesignManual.docx 
+
+
+#base_html_opt="-f markdown --standalone --self-contained  --resource-path ./:produce  --template hc_style/toc-sidebarL.html --toc  --toc-depth=4 -B hc_style/hc_nav"
+#base_pdf_opt="hc_style/hc_manual_pdf.yaml --resource-path ./:design --pdf-engine=xelatex --from markdown --template hc_style/hc_manual_pdf.tex --highlight-style tango "
+#pandoc $base_html_opt produce/QS-RX_BreakModuleTest.md --output produce_output/抱闸部分测试说明.docx
+

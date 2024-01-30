@@ -1,5 +1,6 @@
 ---
-CJKmainfont: "Heiti SC"
+CJKmainfont: "Noto Sans CJK SC-DemiLight"
+CJKoptions: ["BoldFont=Noto Sans CJK SC-Medium","AutoFakeSlant=true"]
 mainfont: "Helvetica"
 sansfont: "Helvetica"
 monofont: "Helvetica"
@@ -15,8 +16,18 @@ toc-own-page: true
 titlepage : true
 
 colorlinks: true
-linkcolor: red
+linkcolor: blue
 filecolor: Cyan
-urlcolor: Navy
+urlcolor: blue
 toccolor: blue
+
+caption-justification: centering
+
+
+fignos-cleveref: True
+fignos-plus-name: 图
+fignos-caption-name: 图
+fignos-number-by-section: True
+header-includes: \usepackage{subcaption}
+
 ---
